@@ -13,6 +13,8 @@ class SecondViewController: UIViewController {
     @IBOutlet weak var adviceLabel: UILabel!
     @IBOutlet weak var backButton: UIButton!
     
+    var bmi: Double?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
@@ -20,9 +22,14 @@ class SecondViewController: UIViewController {
     func makeUI() {
         backButton.clipsToBounds = true
         backButton.layer.cornerRadius = 8
+        
         bmiNumberLabel.clipsToBounds = true
         bmiNumberLabel.layer.cornerRadius = 10
-//        bmiNumberLabel.backgroundColor = .gray
+        bmiNumberLabel.backgroundColor = .gray
+        
+        // 옵셔널벗겨서 구현 
+        guard let bmi = bmi else { return }
+        bmiNumberLabel.text = String(bmi)
         
     }
     

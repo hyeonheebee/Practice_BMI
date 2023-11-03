@@ -35,6 +35,7 @@ class ViewController: UIViewController {
         heightTextField.placeholder = "cm 단위로 입력해주세요"
         weightTextField.placeholder = "kg 단위로 입력해주세요"
         
+        
     }
     @IBAction func calcutateButtonTapped(_ sender: UIButton) {
         
@@ -42,10 +43,67 @@ class ViewController: UIViewController {
     }
     
 
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if heightTextField.text == "" || weightTextField.text == "" {
+            mainLabel.text = "정확한 키와 몸무게를 입력해주세요!"
+            mainLabel.textColor = UIColor.red
+            return false
+        }
+        mainLabel.text = "키와 몸무게를 입력해주세요"
+        mainLabel.textColor = .black
+        return true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toSecondVC" {
+            let secondVC = segue.destination as! SecondViewController
+           // 데이터 전달 secondVC.bmi =
+        }
+        
+        // 다음화면으로 가기전에 텍스트필드 비우기
+        heightTextField.text = ""
+        weightTextField.text = ""
+    }
 }
 
 extension ViewController: UITextFieldDelegate {
+    //위처럼 둘다 대리자로 self(UI뷰컨트롤러)를 지정했기 때문에 둘중에 뭐가 입력되든 해당 메서드가 호출됨
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // 만약 heightTextField에만 조건을 적용하고 싶다면?
+        // if textField == heightTextField 이렇게 감싸면 된다
+        if Int(string) != nil || string == "" {
+            return true
+        }
+        return false
+        
+    }
     
+    // 버튼을 누르면 다음 텍스트필드로 넘어가도록
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // 두개의 텍스트필드를 모두 종료
+        if heightTextField.text != "", weightTextField.text != "" {
+            // 두 텍스트필드 모두 빈 문자열이 아니라면(입력되어있다면)
+            textField.resignFirstResponder()
+            // textField를 응답객체에서 해제하겠다
+            return true // 엔터입력을 허락한다(새로운 글자열로 인식해준다)
+            
+            // 두번째 텍스트필드로 넘어가도록
+        } else if heightTextField.text != "" {
+            // (둘다입력된게 아닌상태에서) heightTextField가 빈문자열이 아니라면(입력되어있다면)
+            weightTextField.becomeFirstResponder()
+            // weightTextField를 응답객체로 사용하겠다
+            return true // 엔터입력을 허락한다(새로운 글자열로 인식해준다)
+            
+        } else  {
+            heightTextField.becomeFirstResponder()
+            return true // 엔터입력을 허락한다(새로운 글자열로 인식해준다)
+        }
+        
+    }
     
-    
+    // 바깥 화면을 클릭하면 키보드가 내려가는 기능
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        heightTextField.resignFirstResponder()
+        weightTextField.resignFirstResponder()
+    }
 }
