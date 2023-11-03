@@ -65,8 +65,11 @@ class ViewController: UIViewController {
             let secondVC = segue.destination as! SecondViewController
 
             // 계산결과 데이터 다음화면으로 전달
-            secondVC.bmi = self.bmi
+            secondVC.bmiNumber = self.bmi
             // 실제로는 secondVC.bmi = bmi 도 가능
+            
+            secondVC.adviceString = getBMIAdviceString()
+            secondVC.bmiColor = getBackgroundColor()
         }
         
         // 다음화면으로 가기전에 텍스트필드 비우기
@@ -81,6 +84,45 @@ class ViewController: UIViewController {
         // 일반적으로 반올림처리할때 사용하는 코드
         bmi = round(bmi * 10) / 10
         return bmi
+    }
+    
+    
+    func getBackgroundColor() -> UIColor {
+        guard let bmi = bmi else { return UIColor.black }
+        switch bmi {
+        case ..<18.6:
+            return #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+         // return UIColor(displayP3Red: <#T##CGFloat#>, green: <#T##CGFloat#>, blue: <#T##CGFloat#>, alpha: <#T##CGFloat#>)
+        case 18.6..<23.0:
+            return #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        case 23.0..<25.0:
+            return #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+        case 25.0..<30.0:
+            return #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)
+        case 30.0...:
+            return #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
+        default:
+            return UIColor.black  // 실수형은 항상 default 문 필요
+        }
+    }
+    
+    
+    func getBMIAdviceString() -> String {
+        guard let bmi = bmi else { return "분석결과가 아직 없어요"}
+        switch bmi {
+        case ..<18.6:
+            return "저체중"
+        case 18.6..<23.0:
+            return "표준"
+        case 23.0..<25.0:
+            return "과체중"
+        case 25.0..<30.0:
+            return "중도비만"
+        case 30.0...:
+            return "고도비만"
+        default:
+            return "분석결과가 아직 없어요" // 실수형은 항상 default 문 필요
+        }
     }
     
 }

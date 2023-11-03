@@ -13,8 +13,11 @@ class SecondViewController: UIViewController {
     @IBOutlet weak var adviceLabel: UILabel!
     @IBOutlet weak var backButton: UIButton!
     
-    var bmi: Double?
-    
+    // 아예 구조체같은 것으로 묶어서 전달도 가능 
+    var bmiNumber: Double?
+    var bmiColor: UIColor?
+    var adviceString: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
@@ -28,8 +31,15 @@ class SecondViewController: UIViewController {
         bmiNumberLabel.backgroundColor = .gray
         
         // 옵셔널벗겨서 구현 
-        guard let bmi = bmi else { return }
+        guard let bmi = bmiNumber else { return }
         bmiNumberLabel.text = String(bmi)
+        
+        // adviceLabel.text 와 backgroundColor 가 이미 옵셔널타입이라서 벗겨줄 필요없음
+        adviceLabel.text = adviceString
+        
+        bmiNumberLabel.backgroundColor = bmiColor
+        
+        backButton.setTitle("다시 계산하기", for: .normal)
         
     }
     
