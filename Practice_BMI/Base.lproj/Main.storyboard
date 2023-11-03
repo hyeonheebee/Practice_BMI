@@ -84,6 +84,10 @@
                                 <state key="normal" title="Button">
                                     <color key="titleColor" systemColor="secondarySystemBackgroundColor"/>
                                 </state>
+                                <connections>
+                                    <action selector="calcutateButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="G0L-bO-5dJ"/>
+                                    <segue destination="9QW-Rx-I5d" kind="presentation" identifier="toSecondVC" modalPresentationStyle="fullScreen" id="YS6-fm-UXg"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -97,21 +101,27 @@
                             <constraint firstItem="uF0-Uu-PoK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="mdb-ib-C4m"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="calcutateButton" destination="HEL-7A-zZI" id="DEs-4h-Iov"/>
+                        <outlet property="heightTextField" destination="6fk-1K-IHh" id="Xad-ea-Ccb"/>
+                        <outlet property="mainLabel" destination="QCL-uW-jn2" id="JWY-FQ-DCg"/>
+                        <outlet property="weightTextField" destination="xR1-Ir-Tz4" id="JA5-dv-98b"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="60" y="4"/>
         </scene>
-        <!--View Controller-->
+        <!--Second View Controller-->
         <scene sceneID="fmr-52-eGq">
             <objects>
-                <viewController id="9QW-Rx-I5d" sceneMemberID="viewController">
+                <viewController id="9QW-Rx-I5d" customClass="SecondViewController" customModule="Practice_BMI" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="11M-QI-Ikq">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Z4l-BG-bDA">
-                                <rect key="frame" x="96.666666666666686" y="189" width="200" height="128"/>
+                                <rect key="frame" x="96.666666666666686" y="130" width="200" height="128"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BMI 결과값" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L11-h7-5qd">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="24"/>
@@ -140,7 +150,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFZ-0b-TpO">
-                                <rect key="frame" x="36" y="743" width="321" height="45"/>
+                                <rect key="frame" x="36" y="777" width="321" height="45"/>
                                 <color key="backgroundColor" name="AccentColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="oni-We-txX"/>
@@ -149,6 +159,9 @@
                                 <state key="normal" title="Button">
                                     <color key="titleColor" systemColor="secondarySystemBackgroundColor"/>
                                 </state>
+                                <connections>
+                                    <action selector="backButtonTapped:" destination="9QW-Rx-I5d" eventType="touchUpInside" id="pWe-uA-iwe"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hQA-HC-bx1"/>
@@ -161,6 +174,11 @@
                             <constraint firstItem="hQA-HC-bx1" firstAttribute="bottom" secondItem="hFZ-0b-TpO" secondAttribute="bottom" constant="30" id="txg-t6-HBf"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="adviceLabel" destination="ndp-pp-14c" id="dcS-UC-j2q"/>
+                        <outlet property="backButton" destination="hFZ-0b-TpO" id="dX4-J0-697"/>
+                        <outlet property="bmiNumberLabel" destination="o3O-nt-ssr" id="WGA-Qd-wKY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tmw-UF-VDy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
