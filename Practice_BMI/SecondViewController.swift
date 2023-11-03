@@ -34,6 +34,7 @@ class SecondViewController: UIViewController {
         guard let bmi = bmiNumber else { return }
         bmiNumberLabel.text = String(bmi)
         
+        // 옵셔널 언래핑 안해도 되는 이유
         // adviceLabel.text 와 backgroundColor 가 이미 옵셔널타입이라서 벗겨줄 필요없음
         adviceLabel.text = adviceString
         

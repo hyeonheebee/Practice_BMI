@@ -4,6 +4,8 @@
 //
 //  Created by 심현희 on 2023/11/01.
 //
+// 함수는 하나의 함수에 한 기능인 것을 지향하자
+
 
 import UIKit
 
@@ -39,6 +41,9 @@ class ViewController: UIViewController {
         
         
     }
+    
+    
+    // MARK: - 계산하기 버튼이 눌릴때 실행되는 함수
     @IBAction func calcutateButtonTapped(_ sender: UIButton) {
         // bmi 결과값을 뽑아내야함 => 함수제작 사용권장
         
@@ -48,7 +53,8 @@ class ViewController: UIViewController {
         // let _ = calculateBMI(height: heightTextField.text!, weight: weightTextField.text!)
     }
     
-
+    
+    // MARK: - 세그웨이 실행여부를 판단하는 함수
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if heightTextField.text == "" || weightTextField.text == "" {
             mainLabel.text = "정확한 키와 몸무게를 입력해주세요!"
@@ -60,6 +66,8 @@ class ViewController: UIViewController {
         return true
     }
     
+    
+    // MARK: - 💡데이터전달 메서드(직접세그웨이 이므로 shouldPerformSegue 가 true 일때 자동으로 호출됨)
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toSecondVC" {
             let secondVC = segue.destination as! SecondViewController
@@ -77,6 +85,9 @@ class ViewController: UIViewController {
         weightTextField.text = ""
     }
     
+    
+    
+    // MARK: - BMI지수를 저장하는 함수
     func calculateBMI(height: String, weight: String) -> Double {
         guard let h = Double(height), let w = Double(weight) else { return 0.0 }
         // 계산은 모든 값이 double 임으로 가능함
@@ -87,6 +98,7 @@ class ViewController: UIViewController {
     }
     
     
+    // MARK: - BMI지수에 따른 label 배경색상을 패턴매칭하는 함수
     func getBackgroundColor() -> UIColor {
         guard let bmi = bmi else { return UIColor.black }
         switch bmi {
@@ -107,6 +119,7 @@ class ViewController: UIViewController {
     }
     
     
+    // MARK: - BMI지수에 따른 label 조언 문자열을 패턴매칭하는 함수
     func getBMIAdviceString() -> String {
         guard let bmi = bmi else { return "분석결과가 아직 없어요"}
         switch bmi {
@@ -127,7 +140,12 @@ class ViewController: UIViewController {
     
 }
 
+
+// MARK: - 텍스트필드 관련 UI 구현을 위해 델리게이트 패턴 구현
 extension ViewController: UITextFieldDelegate {
+    
+    
+    // MARK: - 텍스트필드에 입력이 될때마다 실행되는 함수
     //위처럼 둘다 대리자로 self(UI뷰컨트롤러)를 지정했기 때문에 둘중에 뭐가 입력되든 해당 메서드가 호출됨
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // 만약 heightTextField에만 조건을 적용하고 싶다면?
@@ -139,6 +157,8 @@ extension ViewController: UITextFieldDelegate {
         
     }
     
+    
+    // MARK: - 엔터키를 눌렀을때 행동 및 엔터키동작 허락여부 함수
     // 버튼을 누르면 다음 텍스트필드로 넘어가도록
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // 두개의 텍스트필드를 모두 종료
@@ -162,6 +182,8 @@ extension ViewController: UITextFieldDelegate {
         
     }
     
+    
+    // MARK: - 바깥화면 클릭시 키보드 내리기
     // 바깥 화면을 클릭하면 키보드가 내려가는 기능
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         heightTextField.resignFirstResponder()
