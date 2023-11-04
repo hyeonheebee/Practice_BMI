@@ -18,7 +18,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var calcutateButton: UIButton!
     
-    var bmi: Double?
+    
+    
+    // controller 와 model(BMICalculatorManager)의 의사소통을 위한 변수선언, 구조체 인스턴스 생성
+    var bmiManager = BMICalculatorManager()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +53,9 @@ class ViewController: UIViewController {
         
         guard let height = heightTextField.text,
               let weight = weightTextField.text else { return }
-        bmi = calculateBMI(height: height, weight: weight)
+        
+        // 계산하라고 데이터를 전달해주는 코드
+        bmiManager.calculateBMI(height: height, weight: weight)
         // let _ = calculateBMI(height: heightTextField.text!, weight: weightTextField.text!)
     }
     
@@ -73,11 +79,11 @@ class ViewController: UIViewController {
             let secondVC = segue.destination as! SecondViewController
 
             // 계산결과 데이터 다음화면으로 전달
-            secondVC.bmiNumber = self.bmi
+            secondVC.bmiNumber = bmiManager.getBMIResult()
             // 실제로는 secondVC.bmi = bmi 도 가능
             
-            secondVC.adviceString = getBMIAdviceString()
-            secondVC.bmiColor = getBackgroundColor()
+            secondVC.adviceString = bmiManager.getBMIAdviceString()
+            secondVC.bmiColor = bmiManager.getBackgroundColor()
         }
         
         // 다음화면으로 가기전에 텍스트필드 비우기
@@ -86,57 +92,6 @@ class ViewController: UIViewController {
     }
     
     
-    
-    // MARK: - BMI지수를 저장하는 함수
-    func calculateBMI(height: String, weight: String) -> Double {
-        guard let h = Double(height), let w = Double(weight) else { return 0.0 }
-        // 계산은 모든 값이 double 임으로 가능함
-        var bmi = w / (h * h) * 10000
-        // 일반적으로 반올림처리할때 사용하는 코드
-        bmi = round(bmi * 10) / 10
-        return bmi
-    }
-    
-    
-    // MARK: - BMI지수에 따른 label 배경색상을 패턴매칭하는 함수
-    func getBackgroundColor() -> UIColor {
-        guard let bmi = bmi else { return UIColor.black }
-        switch bmi {
-        case ..<18.6:
-            return #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
-         // return UIColor(displayP3Red: <#T##CGFloat#>, green: <#T##CGFloat#>, blue: <#T##CGFloat#>, alpha: <#T##CGFloat#>)
-        case 18.6..<23.0:
-            return #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        case 23.0..<25.0:
-            return #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
-        case 25.0..<30.0:
-            return #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)
-        case 30.0...:
-            return #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
-        default:
-            return UIColor.black  // 실수형은 항상 default 문 필요
-        }
-    }
-    
-    
-    // MARK: - BMI지수에 따른 label 조언 문자열을 패턴매칭하는 함수
-    func getBMIAdviceString() -> String {
-        guard let bmi = bmi else { return "분석결과가 아직 없어요"}
-        switch bmi {
-        case ..<18.6:
-            return "저체중"
-        case 18.6..<23.0:
-            return "표준"
-        case 23.0..<25.0:
-            return "과체중"
-        case 25.0..<30.0:
-            return "중도비만"
-        case 30.0...:
-            return "고도비만"
-        default:
-            return "분석결과가 아직 없어요" // 실수형은 항상 default 문 필요
-        }
-    }
     
 }
 
