@@ -48,15 +48,11 @@ class ViewController: UIViewController {
     
     
     // MARK: - 계산하기 버튼이 눌릴때 실행되는 함수
+    // 어차피 버튼이 눌리면 내부적으로 souldPerformSegue 가 호출되고 기존에 데이터를 계산하는 매니저를 호출하던 기능은 prepare가 가저감
+    // 내부로직 필요없음
     @IBAction func calcutateButtonTapped(_ sender: UIButton) {
-        // bmi 결과값을 뽑아내야함 => 함수제작 사용권장
+        print(#function)
         
-        guard let height = heightTextField.text,
-              let weight = weightTextField.text else { return }
-        
-        // 계산하라고 데이터를 전달해주는 코드
-        bmiManager.calculateBMI(height: height, weight: weight)
-        // let _ = calculateBMI(height: heightTextField.text!, weight: weightTextField.text!)
     }
     
     
@@ -79,11 +75,14 @@ class ViewController: UIViewController {
             let secondVC = segue.destination as! SecondViewController
 
             // 계산결과 데이터 다음화면으로 전달
-            secondVC.bmiNumber = bmiManager.getBMIResult()
-            // 실제로는 secondVC.bmi = bmi 도 가능
+            guard let height = heightTextField.text,
+                  let weight = weightTextField.text else { return }
+            // bmiManager.bmi // 불가능함 (private)
+            // 계산하라고 데이터를 전달해주는 코드
+            // bmi에 간접적으로 접근할 수 있는 매서드를 호출하고 결과값을 담는 역할 (직접적으로 접근하는 것은 private 제어걸려서 불가능)
+            secondVC.bmi = bmiManager.getBMIResult(height: height, weight: weight)
+            // let _ = gbmiManager.etBMIResult(height: heightTextField.text!, weight: weightTextField.text!)
             
-            secondVC.adviceString = bmiManager.getBMIAdviceString()
-            secondVC.bmiColor = bmiManager.getBackgroundColor()
         }
         
         // 다음화면으로 가기전에 텍스트필드 비우기
