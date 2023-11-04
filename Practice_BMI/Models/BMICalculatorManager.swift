@@ -28,8 +28,9 @@ struct BMICalculatorManager {
     
     
     // 계산된 bmi 값을 제공해줌
-    func getBMIResult() -> Double? {
-        return bmi
+    func getBMIResult() -> Double {
+        // 약간의 트릭 Double? 을 리턴을 안하는 대신 닐코얼리싱으로 기본값을 설정해줌 
+        return bmi ?? 0.0
     }
     
     
